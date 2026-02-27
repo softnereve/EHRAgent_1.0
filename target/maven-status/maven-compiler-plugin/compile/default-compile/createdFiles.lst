@@ -32,6 +32,7 @@ com\softnerve\epic\model\dto\ChildRegistrationDTO$ChildRegistrationDTOBuilder.cl
 com\softnerve\epic\model\dto\AppointmentRequestDTO.class
 com\softnerve\epic\model\dto\AttachmentDTO.class
 com\softnerve\epic\model\dto\ApplicableImmunizationDTO.class
+com\softnerve\epic\configuration\SecurityConfig.class
 com\softnerve\epic\model\EmailEvent.class
 com\softnerve\epic\model\dto\PractitionerSummaryDTO$PractitionerSummaryDTOBuilder.class
 com\softnerve\epic\repo\PractitionerRepository.class

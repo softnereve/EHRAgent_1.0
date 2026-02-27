@@ -71,6 +71,7 @@ C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\s
 C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\exception\UnauthorizedException.java
 C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\utils\SlotMapper.java
 C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\EHRAgentApplication.java
+C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\configuration\SecurityConfig.java
 C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\model\dto\SlotDTO.java
 C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\exception\DoctorNotFoundException.java
 C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\src\main\java\com\softnerve\epic\model\dto\ChangePasswordDTO.java
