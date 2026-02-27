@@ -1,0 +1,445 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.softnerve:EHRAgent >-----------------------
+[INFO] Building EHRAgent 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ EHRAgent ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ EHRAgent ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 86 source files to C:\Users\anike\OneDrive\Desktop\ANIKET WORK\patient\EHRAgent\target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[3,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[32,13] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[32,20] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[14,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[15,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[17,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.FetchPatientDTO.FetchPatientDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[4,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[54,13] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[54,20] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[18,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[20,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[21,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildRegistrationDTO.ChildRegistrationDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[4,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[40,13] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[40,20] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[16,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[19,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[17,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.RegistrationDTO.RegistrationDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/SecureDto.java:[3,36] cannot find symbol
+  symbol:   class Patient
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/SecureDto.java:[4,36] cannot find symbol
+  symbol:   class PatientDocument
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UiData.java:[3,36] cannot find symbol
+  symbol:   class Patient
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UiData.java:[4,36] cannot find symbol
+  symbol:   class PatientDocument
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UiData.java:[34,19] cannot find symbol
+  symbol:   class PatientDocument
+  location: class com.softnerve.epic.model.dto.UiData
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/SecureDto.java:[26,22] cannot find symbol
+  symbol:   class PatientDocument
+  location: class com.softnerve.epic.model.dto.SecureDto
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/configuration/epicConfig/BeanConfig.java:[3,40] package org.attachment.softnerve.service does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/configuration/epicConfig/BeanConfig.java:[4,40] package org.attachment.softnerve.service does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/configuration/epicConfig/BeanConfig.java:[14,12] cannot find symbol
+  symbol:   class KafkaService
+  location: class com.softnerve.epic.configuration.epicConfig.BeanConfig
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[16,32] cannot find symbol
+  symbol:   class EmailEvent
+  location: package com.softnerve.epic.model
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[17,36] cannot find symbol
+  symbol:   class PatientDocument
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[22,31] cannot find symbol
+  symbol:   class EpicPatientRepository
+  location: package com.softnerve.epic.repo
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[26,32] cannot find symbol
+  symbol:   class PatientMapper
+  location: package com.softnerve.epic.utils
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[27,36] cannot find symbol
+  symbol:   class PatientNotFoundException
+  location: package com.softnerve.epic.exception
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[37,40] package org.attachment.softnerve.service does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[44,52] package org.springframework.security.crypto.password does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[48,21] package org.thymeleaf does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[57,29] package org.thymeleaf.context does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[67,19] cannot find symbol
+  symbol:   class TemplateEngine
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[68,19] cannot find symbol
+  symbol:   class KafkaService
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[76,19] cannot find symbol
+  symbol:   class EpicPatientRepository
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[87,19] cannot find symbol
+  symbol:   class PasswordEncoder
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[89,56] cannot find symbol
+  symbol:   class TemplateEngine
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[89,87] cannot find symbol
+  symbol:   class KafkaService
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[93,84] cannot find symbol
+  symbol:   class EpicPatientRepository
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[93,125] cannot find symbol
+  symbol:   class PasswordEncoder
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[208,12] cannot find symbol
+  symbol:   class PatientDocument
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[237,53] cannot find symbol
+  symbol:   class PatientDocument
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[237,17] cannot find symbol
+  symbol:   class PatientDocument
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[507,39] cannot find symbol
+  symbol:   class PatientDocument
+  location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/DiseaseDTO.java:[3,36] cannot find symbol
+  symbol:   class Disease
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/DiseaseDTO.java:[21,43] cannot find symbol
+  symbol:   class Disease
+  location: class com.softnerve.epic.model.dto.DiseaseDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/DiseaseDTO.java:[29,19] cannot find symbol
+  symbol:   class Disease
+  location: class com.softnerve.epic.model.dto.DiseaseDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicAppointmentServiceIMPL.java:[15,32] cannot find symbol
+  symbol:   class SlotMapper
+  location: package com.softnerve.epic.utils
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[3,36] cannot find symbol
+  symbol:   class ImmunizationChart
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[16,30] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[16,48] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[8,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[9,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[4,36] cannot find symbol
+  symbol:   class ImmunizationChart
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[33,30] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[33,48] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[10,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[12,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[11,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[5,36] cannot find symbol
+  symbol:   class AppointmentEvent
+  location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[6,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[29,13] cannot find symbol
+  symbol:   class AppointmentStatus
+  location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[30,29] package AppointmentEvent does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[29,31] cannot find symbol
+  symbol:   class AppointmentStatus
+  location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[30,46] package AppointmentEvent does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[12,1] cannot find symbol
+  symbol:   class AppointmentStatus
+  location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[13,1] cannot find symbol
+  symbol:   class AppointmentStatus
+  location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[15,1] cannot find symbol
+  symbol:   class AppointmentStatus
+  location: class com.softnerve.epic.model.dto.PatientAppointmentDTO.PatientAppointmentDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[3,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[35,13] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[35,20] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[12,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[13,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[15,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO.ChildUpdateDetailsDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[3,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[47,13] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[47,20] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[15,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[17,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[18,1] cannot find symbol
+  symbol:   class Gender
+  location: class com.softnerve.epic.model.dto.UpdateDTO.UpdateDTOBuilder
+[INFO] 84 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.981 s
+[INFO] Finished at: 2026-02-28T00:03:53+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.10.1:compile (default-compile) on project EHRAgent: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[3,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[32,13] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[32,20] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[14,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[15,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.FetchPatientDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/FetchPatientDTO.java:[17,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.FetchPatientDTO.FetchPatientDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[4,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[54,13] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[54,20] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[18,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[20,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildRegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildRegistrationDTO.java:[21,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildRegistrationDTO.ChildRegistrationDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[4,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[40,13] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[40,20] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[16,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[19,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.RegistrationDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/RegistrationDTO.java:[17,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.RegistrationDTO.RegistrationDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/SecureDto.java:[3,36] cannot find symbol
+[ERROR]   symbol:   class Patient
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/SecureDto.java:[4,36] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UiData.java:[3,36] cannot find symbol
+[ERROR]   symbol:   class Patient
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UiData.java:[4,36] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UiData.java:[34,19] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: class com.softnerve.epic.model.dto.UiData
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/SecureDto.java:[26,22] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: class com.softnerve.epic.model.dto.SecureDto
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/configuration/epicConfig/BeanConfig.java:[3,40] package org.attachment.softnerve.service does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/configuration/epicConfig/BeanConfig.java:[4,40] package org.attachment.softnerve.service does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/configuration/epicConfig/BeanConfig.java:[14,12] cannot find symbol
+[ERROR]   symbol:   class KafkaService
+[ERROR]   location: class com.softnerve.epic.configuration.epicConfig.BeanConfig
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[16,32] cannot find symbol
+[ERROR]   symbol:   class EmailEvent
+[ERROR]   location: package com.softnerve.epic.model
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[17,36] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[22,31] cannot find symbol
+[ERROR]   symbol:   class EpicPatientRepository
+[ERROR]   location: package com.softnerve.epic.repo
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[26,32] cannot find symbol
+[ERROR]   symbol:   class PatientMapper
+[ERROR]   location: package com.softnerve.epic.utils
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[27,36] cannot find symbol
+[ERROR]   symbol:   class PatientNotFoundException
+[ERROR]   location: package com.softnerve.epic.exception
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[37,40] package org.attachment.softnerve.service does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[44,52] package org.springframework.security.crypto.password does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[48,21] package org.thymeleaf does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[57,29] package org.thymeleaf.context does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[67,19] cannot find symbol
+[ERROR]   symbol:   class TemplateEngine
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[68,19] cannot find symbol
+[ERROR]   symbol:   class KafkaService
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[76,19] cannot find symbol
+[ERROR]   symbol:   class EpicPatientRepository
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[87,19] cannot find symbol
+[ERROR]   symbol:   class PasswordEncoder
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[89,56] cannot find symbol
+[ERROR]   symbol:   class TemplateEngine
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[89,87] cannot find symbol
+[ERROR]   symbol:   class KafkaService
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[93,84] cannot find symbol
+[ERROR]   symbol:   class EpicPatientRepository
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[93,125] cannot find symbol
+[ERROR]   symbol:   class PasswordEncoder
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[208,12] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[237,53] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[237,17] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicPatientServiceIMPL.java:[507,39] cannot find symbol
+[ERROR]   symbol:   class PatientDocument
+[ERROR]   location: class com.softnerve.epic.service.Implimentation.EpicPatientServiceIMPL
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/DiseaseDTO.java:[3,36] cannot find symbol
+[ERROR]   symbol:   class Disease
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/DiseaseDTO.java:[21,43] cannot find symbol
+[ERROR]   symbol:   class Disease
+[ERROR]   location: class com.softnerve.epic.model.dto.DiseaseDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/DiseaseDTO.java:[29,19] cannot find symbol
+[ERROR]   symbol:   class Disease
+[ERROR]   location: class com.softnerve.epic.model.dto.DiseaseDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/service/Implimentation/EpicAppointmentServiceIMPL.java:[15,32] cannot find symbol
+[ERROR]   symbol:   class SlotMapper
+[ERROR]   location: package com.softnerve.epic.utils
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[3,36] cannot find symbol
+[ERROR]   symbol:   class ImmunizationChart
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[16,30] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[16,48] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[8,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ApplicableImmunizationDTO.java:[9,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[4,36] cannot find symbol
+[ERROR]   symbol:   class ImmunizationChart
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[33,30] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[33,48] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[10,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[12,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ImmunizationDTO.java:[11,1] package ImmunizationChart does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[5,36] cannot find symbol
+[ERROR]   symbol:   class AppointmentEvent
+[ERROR]   location: package com.softnerve.epic.model.dao
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[6,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[29,13] cannot find symbol
+[ERROR]   symbol:   class AppointmentStatus
+[ERROR]   location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[30,29] package AppointmentEvent does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[29,31] cannot find symbol
+[ERROR]   symbol:   class AppointmentStatus
+[ERROR]   location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[30,46] package AppointmentEvent does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[12,1] cannot find symbol
+[ERROR]   symbol:   class AppointmentStatus
+[ERROR]   location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[13,1] cannot find symbol
+[ERROR]   symbol:   class AppointmentStatus
+[ERROR]   location: class com.softnerve.epic.model.dto.PatientAppointmentDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/PatientAppointmentDTO.java:[15,1] cannot find symbol
+[ERROR]   symbol:   class AppointmentStatus
+[ERROR]   location: class com.softnerve.epic.model.dto.PatientAppointmentDTO.PatientAppointmentDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[3,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[35,13] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[35,20] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[12,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[13,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/ChildUpdateDetailsDTO.java:[15,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.ChildUpdateDetailsDTO.ChildUpdateDetailsDTOBuilder
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[3,38] package com.softnerve.epic.model.enums does not exist
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[47,13] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[47,20] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[15,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[17,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.UpdateDTO
+[ERROR] /C:/Users/anike/OneDrive/Desktop/ANIKET WORK/patient/EHRAgent/src/main/java/com/softnerve/epic/model/dto/UpdateDTO.java:[18,1] cannot find symbol
+[ERROR]   symbol:   class Gender
+[ERROR]   location: class com.softnerve.epic.model.dto.UpdateDTO.UpdateDTOBuilder
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
