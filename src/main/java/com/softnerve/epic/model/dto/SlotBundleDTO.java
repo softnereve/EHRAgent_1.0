@@ -14,4 +14,13 @@ import java.util.List;
 public class SlotBundleDTO {
 
     private List<SlotDTO> slots;
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }

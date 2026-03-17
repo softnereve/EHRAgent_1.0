@@ -25,4 +25,6 @@ public class EpicSandboxIdsDTO {
     private List<String> slotIds = new ArrayList<>();
     @Builder.Default
     private List<String> messages = new ArrayList<>();
+
+    private String timeTaken;
 }

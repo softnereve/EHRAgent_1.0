@@ -17,8 +17,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,8 +51,13 @@ public class EpicPatientController {
     @ApiResponse(responseCode = "200", description = "Successfully discovered IDs", content = @Content(schema = @Schema(implementation = EpicSandboxIdsDTO.class)))
     @GetMapping("/sandbox/discover")
     public Mono<ResponseEntity<EpicSandboxIdsDTO>> discoverSandboxIds() {
+        long start = System.currentTimeMillis();
         return epicSandboxDiscoveryService.discoverIds()
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /sandbox/discover processed in {}", dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
     private final EpicPractitionerService practitionerService;
     private final EpicSandboxDiscoveryService sandboxDiscoveryService;
@@ -63,8 +70,13 @@ public class EpicPatientController {
     public Mono<ResponseEntity<PractitionerSummaryDTO>> getPractitioner(
             @Parameter(description = "Epic Practitioner ID", example = "eb55Xa5E7EWWnV5eRuWsfKQ3") @PathVariable String id) {
         log.info("📥 Received request to fetch practitioner summary. id={}", id);
+        long start = System.currentTimeMillis();
         return practitionerService.getPractitionerById(id)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /practitioner/{}/summary processed in {}", id, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
 
     /** Practitioner roles and specialties from Epic. */
@@ -74,8 +86,14 @@ public class EpicPatientController {
     public Mono<ResponseEntity<List<PractitionerRoleDTO>>> getPractitionerRoles(
             @Parameter(description = "Epic Practitioner ID", example = "eb55Xa5E7EWWnV5eRuWsfKQ3") @PathVariable String id) {
         log.info("📥 Received request to fetch practitioner roles. practitionerId={}", id);
+        long start = System.currentTimeMillis();
         return practitionerService.getPractitionerRoles(id)
-                .map(ResponseEntity::ok);
+                .map(list -> {
+                    String time = (System.currentTimeMillis() - start) + "ms";
+                    list.forEach(item -> item.setTimeTaken(time));
+                    log.info("Request /practitioner/{}/roles processed in {}", id, time);
+                    return ResponseEntity.ok(list);
+                });
     }
     /** Search practitioners by name or specialty (Epic FHIR search). */
     @Operation(summary = "Search Practitioners", description = "Searches for practitioners in Epic by name or specialty.")
@@ -85,8 +103,14 @@ public class EpicPatientController {
             @Parameter(description = "Practitioner name", example = "Albert Johnson") @RequestParam(required = false) String name,
             @Parameter(description = "Practitioner specialty", example = "Internal Medicine") @RequestParam(required = false) String specialty) {
         log.info("📥 Received request to search practitioners. name={}, specialty={}", name, specialty);
+        long start = System.currentTimeMillis();
         return practitionerService.searchPractitioners(name, specialty)
-                .map(ResponseEntity::ok);
+                .map(list -> {
+                    String time = (System.currentTimeMillis() - start) + "ms";
+                    list.forEach(item -> item.setTimeTaken(time));
+                    log.info("Request /practitioner/search processed in {}", time);
+                    return ResponseEntity.ok(list);
+                });
     }
 
     /** Simple doctor info by Epic Practitioner ID. */
@@ -94,8 +118,13 @@ public class EpicPatientController {
     @ApiResponse(responseCode = "200", description = "Doctor info found", content = @Content(schema = @Schema(implementation = DoctorDTO.class)))
     @GetMapping("/practitioner/{id}")
     public Mono<ResponseEntity<DoctorDTO>> getDoctor(@Parameter(description = "Epic Practitioner ID", example = "T... (Epic ID)") @PathVariable String id) {
+        long start = System.currentTimeMillis();
         return practitionerService.getDoctorById(id)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /practitioner/{} processed in {}", id, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
 //not working
 //    @GetMapping("/practitioner/{id}/slots")
@@ -115,12 +144,22 @@ public class EpicPatientController {
     @Operation(summary = "Get All Practitioners", description = "Fetches all practitioners available in the Epic sandbox.")
     @ApiResponse(responseCode = "200", description = "All practitioners fetched")
     @GetMapping("/practitioner/all")
-    public Mono<ResponseEntity<List<DoctorDTO>>> getAllPractitioners() {
+    public Mono<ResponseEntity<DoctorListResponse>> getAllPractitioners() {
         log.info("📥 Request received to fetch ALL doctors from Epic sandbox");
 
+        long start = System.currentTimeMillis();
         return practitionerService.getAllDoctorsFromSandbox()
-                .map(ResponseEntity::ok)
-                .doOnSuccess(res -> log.info("✅ Successfully returned all doctors"))
+                .map(doctors -> {
+                    String time = (System.currentTimeMillis() - start) + "ms";
+                    DoctorListResponse body = DoctorListResponse.builder()
+                            .doctors(doctors)
+                            .timeTaken(time)
+                            .build();
+                    log.info("✅ Successfully returned all doctors in {}", time);
+                    return ResponseEntity.ok()
+                            .header("X-Time-Taken", time)
+                            .body(body);
+                })
                 .doOnError(err -> log.error("❌ Failed to fetch doctors", err));
     }
 
@@ -163,7 +202,8 @@ Patient APIS
                     epicJson,
                     request.getPassword(),
                     request.getEmail(),
-                    request.getAddress()
+                    request.getAddress(),
+                    System.currentTimeMillis()
             );
         } catch (Exception e) {
             return Mono.error(new EpicDataMappingException("Failed to serialize patient data", e));
@@ -178,9 +218,13 @@ Patient APIS
             @Parameter(description = "Epic Patient ID", example = "erXuFYUfucBZaryVksYEcMg3") @PathVariable String patientId) {
 
         log.info("📥 Received request to fetch patient. patientId={}", patientId);
-
+        long start = System.currentTimeMillis();
         return epicPatientService.getPatient(patientId)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /{} processed in {}", patientId, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
     /// custom api
     @Operation(summary = "Get Patient by Email", description = "Fetches patient summary data from Epic using the patient's registerd email address.")
@@ -189,19 +233,26 @@ Patient APIS
     public Mono<ResponseEntity<PatientSummaryDTO>> getPatientByEmail(
             @Parameter(description = "Patient email", example = "knixontestemail@epic.com") @PathVariable String email) {
         log.info("📥 Received request to fetch patient. email={}", email);
+        long start = System.currentTimeMillis();
         return epicPatientService.getPatientByEmail(email)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /patient/{} processed in {}", email, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
 
 
-    @Operation(summary = "Get Observations by Patient ID", description = "Fetches a bundle of observations (test results) for a specific patient from Epic.")
-    @ApiResponse(responseCode = "200", description = "Observations fetched", content = @Content(schema = @Schema(implementation = ObservationBundleDTO.class)))
     @GetMapping("/observation/{patientId}")
     public Mono<ResponseEntity<ObservationBundleDTO>> getObservations(
             @Parameter(description = "Epic Patient ID", example = "erXuFYUfucBZaryVksYEcMg3") @PathVariable String patientId) {
-
+        long start = System.currentTimeMillis();
         return epicPatientService.getObservations(patientId)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /observation/{} processed in {}", patientId, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
     @Operation(summary = "Get Observations by Email", description = "Fetches a bundle of observations (test results) for a patient from Epic using their email address.")
     @ApiResponse(responseCode = "200", description = "Observations fetched")
@@ -209,30 +260,98 @@ Patient APIS
     public Mono<ResponseEntity<ObservationBundleDTO>> getObservationsByEmail(
             @Parameter(description = "Patient email", example = "knixontestemail@epic.com") @PathVariable String email) {
         log.info("Fetching observations from Epic for email={}", email);
+        long start = System.currentTimeMillis();
         return epicPatientService.getObservationsByEmail(email)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /observation/by-email/{} processed in {}", email, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
     @Operation(summary = "Create Custom Observation", description = "Saves a custom observation for a patient in the local MongoDB storage.")
     @ApiResponse(responseCode = "200", description = "Observation saved successfully")
     @PostMapping("/custom/observation")
     public Mono<ResponseEntity<ObservationBundleDTO>> createObservation(
             @Valid @RequestBody CreateObservationRequest request) {
-
+ 
         log.info("Received request to save observation for patientId={}", request.getPatientId());
-
+        long start = System.currentTimeMillis();
         return observationService.saveObservation(request)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /custom/observation processed in {}", dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
     }
     @Operation(summary = "Get Observations from Mongo", description = "Fetches observations for a specific patient that were saved in the local MongoDB.")
     @ApiResponse(responseCode = "200", description = "Observations fetched from Mongo")
     @GetMapping("/mongo-observation/{patientId}")
     public Mono<ResponseEntity<ObservationBundleDTO>> getObservationsFromMongo(
             @Parameter(description = "Epic Patient ID", example = "erXuFYUfucBZaryVksYEcMg3") @PathVariable String patientId) {
-
+ 
         log.info("Fetching observations from Mongo for patientId={}", patientId);
-
+        long start = System.currentTimeMillis();
         return observationService.getObservationsFromMongo(patientId)
-                .map(ResponseEntity::ok);
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /mongo-observation/{} processed in {}", patientId, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
+    }
+
+    @Operation(summary = "Get Clinical Note by DocumentReference ID", description = "Fetch a clinical note (DocumentReference) by its Epic ID.")
+    @ApiResponse(responseCode = "200", description = "Clinical note found", content = @Content(schema = @Schema(implementation = ClinicalNoteDTO.class)))
+    @GetMapping("/document/{documentId}")
+    public Mono<ResponseEntity<ClinicalNoteDTO>> getClinicalNoteById(
+            @Parameter(description = "Epic DocumentReference ID", example = "eXR.vCaCsTte6MWYJJim4wA3") @PathVariable String documentId) {
+        log.info("Received request to fetch clinical note. documentId={}", documentId);
+        long start = System.currentTimeMillis();
+        return epicPatientService.getClinicalNoteById(documentId)
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /document/{} processed in {}", documentId, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
+    }
+
+    @Operation(summary = "Get Clinical Notes by Patient", description = "Search clinical notes (DocumentReference) for a patient in Epic.")
+    @ApiResponse(responseCode = "200", description = "Clinical notes fetched", content = @Content(schema = @Schema(implementation = ClinicalNoteBundleDTO.class)))
+    @GetMapping("/document/by-patient/{patientId}")
+    public Mono<ResponseEntity<ClinicalNoteBundleDTO>> getClinicalNotesByPatient(
+            @Parameter(description = "Epic Patient ID", example = "erXuFYUfucBZaryVksYEcMg3") @PathVariable String patientId) {
+        log.info("Received request to fetch clinical notes by patient. patientId={}", patientId);
+        long start = System.currentTimeMillis();
+        return epicPatientService.getClinicalNotesByPatient(patientId)
+                .map(dto -> {
+                    dto.setTimeTaken((System.currentTimeMillis() - start) + "ms");
+                    log.info("Request /document/by-patient/{} processed in {}", patientId, dto.getTimeTaken());
+                    return ResponseEntity.ok(dto);
+                });
+    }
+
+    @GetMapping(value = "/practitioner/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<DoctorDTO> streamAllPractitioners(@RequestParam(name = "concurrency", defaultValue = "3") int concurrency) {
+        log.info("Streaming practitioners with concurrency={}", concurrency);
+        return practitionerService.streamAllDoctorsFromSandbox(concurrency);
+    }
+
+    @GetMapping("/practitioner/page")
+    public Mono<ResponseEntity<DoctorListResponse>> getPractitionersPage(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size) {
+        long start = System.currentTimeMillis();
+        return practitionerService.getDoctorsPage(page, size)
+                .map(doctors -> {
+                    String time = (System.currentTimeMillis() - start) + "ms";
+                    log.info("Request /practitioner/page?page={}&size={} processed in {}", page, size, time);
+                    DoctorListResponse body = DoctorListResponse.builder()
+                            .doctors(doctors)
+                            .timeTaken(time)
+                            .build();
+                    return ResponseEntity.ok()
+                            .header("X-Time-Taken", time)
+                            .body(body);
+                });
     }
 
 

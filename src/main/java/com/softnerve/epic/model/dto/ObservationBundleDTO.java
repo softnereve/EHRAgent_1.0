@@ -22,5 +22,13 @@ public class ObservationBundleDTO {
     @Schema(description = "List of individual observation summaries")
     private List<ObservationSummaryDTO> observations;
 
-    // getters & setters
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }

@@ -36,4 +36,14 @@ public class DoctorDTO {
     @Builder.Default
     @Schema(description = "Is this doctor from Epic sandbox?", example = "true")
     private boolean isFromEpic = true;
+
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }

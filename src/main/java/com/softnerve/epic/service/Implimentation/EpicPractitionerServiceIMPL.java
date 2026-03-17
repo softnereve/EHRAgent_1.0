@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 import dev.softnerve.annotation.IntentDefinition;
 import dev.softnerve.annotation.IntentService;
@@ -177,7 +178,7 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
     /** Epic read by ID (often 404 in sandbox). */
     private Mono<String> fetchPractitionerByRead(String token, String id) {
         return webClient.get()
-                .uri(EpicConstants.FHIR_BASE + "/Practitioner/{id}", id)
+                .uri(EpicConstants.FHIR_BASE + "/Practitioner/{id}?_elements=name,telecom,qualification", id)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .accept(MediaType.parseMediaType("application/fhir+json"))
                 .retrieve()
@@ -191,7 +192,7 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
     /** Fallback: Epic search by _id when read returns 404 (sandbox quirk). */
     private Mono<String> fetchPractitionerBySearch(String token, String id) {
         return webClient.get()
-                .uri(EpicConstants.FHIR_BASE + "/Practitioner?_id=" + id)
+                .uri(EpicConstants.FHIR_BASE + "/Practitioner?_id={id}&_elements=name,telecom,qualification", id)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .accept(MediaType.parseMediaType("application/fhir+json"))
                 .retrieve()
@@ -225,7 +226,7 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
     @Override
     public Mono<SlotBundleDTO> getAvailableSlots(String doctorId, LocalDate date) {
         log.info("Generating pure dummy slots for doctor {} on {}. (Bypassing Epic)", doctorId, date);
-        return Mono.just(new SlotBundleDTO(generateDummySlots(doctorId, date)));
+        return Mono.just(SlotBundleDTO.builder().slots(generateDummySlots(doctorId, date)).build());
     }
 
     private List<SlotDTO> generateDummySlots(String practitionerId, LocalDate date) {
@@ -255,7 +256,7 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
     private SlotBundleDTO parseSlotBundle(String json) {
         IParser parser = fhirContext.newJsonParser();
         Bundle bundle = parser.parseResource(Bundle.class, json);
-        return new SlotBundleDTO(bundle.getEntry().stream()
+        return SlotBundleDTO.builder().slots(bundle.getEntry().stream()
                 .flatMap(e -> {
                     if (e.getResource() instanceof Slot) {
                         return java.util.stream.Stream.of((Slot) e.getResource());
@@ -268,7 +269,7 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
                         .end(s.getEnd().toInstant().atOffset(ZoneOffset.UTC).toString())
                         .status(s.getStatus().toCode())
                         .build())
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList())).build();
     }
 
     // @IntentDefinition(
@@ -279,35 +280,41 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
     @Override
     public Mono<PractitionerSummaryDTO> getPractitionerById(String id) {
         log.info("➡️ Starting practitioner fetch process. id={}", id);
-        
-        return authService.getAccessToken("system/Practitioner.read")
-                .doOnSuccess(token -> log.info("🔑 Successfully obtained access token for Practitioner.read"))
-                .flatMap(token -> {
-                    log.info("🌐 Fetching Practitioner resource from Epic...");
-                    return fetchPractitionerByRead(token, id)
-                            .onErrorResume(EpicClientException.class, e -> {
-                                if (e.getStatusCode() == 404) {
-                                    log.info("🌐 Read 404, falling back to Practitioner?_id={}", id);
-                                    return fetchPractitionerBySearch(token, id);
-                                }
-                                return Mono.error(e);
-                            })
-                            .map(this::parsePractitioner)
-                            .doOnSuccess(dto -> log.info("✅ Successfully parsed Practitioner resource. id={}", dto.getId()))
-                            .flatMap(practitionerDto -> {
-                                log.info("🌐 Fetching PractitionerRoles for practitionerId={}...", id);
-                                return getPractitionerRoles(id)
-                                        .defaultIfEmpty(java.util.List.of())
-                                        .flatMap(roles -> {
-                                            List<PractitionerRoleDTO> safeRoles = (roles != null) ? roles : java.util.List.of();
-                                            return findOrCreateDoctorId(practitionerDto.getId())
-                                                    .map(doctorId -> {
-                                                        persistPractitionerAsync(practitionerDto, safeRoles, doctorId);
-                                                        PractitionerSummaryDTO summary = PractitionerMapper.toSummaryDto(practitionerDto, safeRoles, doctorId);
-                                                        log.info("🎯 Final Practitioner Summary DTO: {}", summary);
-                                                        return summary;
-                                                    });
-                                        });
+
+        Mono<PractitionerDTO> practitionerMono =
+                authService.getAccessToken("system/Practitioner.read")
+                        .doOnSuccess(token -> log.info("🔑 Successfully obtained access token for Practitioner.read"))
+                        .flatMap(token -> {
+                            log.info("🌐 Fetching Practitioner resource from Epic...");
+                            return fetchPractitionerByRead(token, id)
+                                    .onErrorResume(EpicClientException.class, e -> {
+                                        if (e.getStatusCode() == 404) {
+                                            log.info("🌐 Read 404, falling back to Practitioner?_id={}", id);
+                                            return fetchPractitionerBySearch(token, id);
+                                        }
+                                        return Mono.error(e);
+                                    });
+                        })
+                        .map(this::parsePractitioner)
+                        .doOnSuccess(dto -> log.info("✅ Successfully parsed Practitioner resource. id={}", dto.getId()));
+
+        Mono<List<PractitionerRoleDTO>> rolesMono =
+                getPractitionerRoles(id)
+                        .defaultIfEmpty(java.util.List.of())
+                        .doOnSuccess(r -> log.info("🧩 Roles fetch completed for practitionerId={}, count={}", id, (r != null ? r.size() : 0)))
+                        .onErrorReturn(java.util.List.of());
+
+        return Mono.zip(practitionerMono, rolesMono)
+                .flatMap(tuple -> {
+                    PractitionerDTO practitionerDto = tuple.getT1();
+                    List<PractitionerRoleDTO> roles = tuple.getT2();
+                    List<PractitionerRoleDTO> safeRoles = (roles != null) ? roles : java.util.List.of();
+                    return findOrCreateDoctorId(practitionerDto.getId())
+                            .map(doctorId -> {
+                                persistPractitionerAsync(practitionerDto, safeRoles, doctorId);
+                                PractitionerSummaryDTO summary = PractitionerMapper.toSummaryDto(practitionerDto, safeRoles, doctorId);
+                                log.info("🎯 Final Practitioner Summary DTO ready. id={}, doctorId={}, roles={}", practitionerDto.getId(), doctorId, safeRoles.size());
+                                return summary;
                             });
                 })
                 .doOnSuccess(finalResult -> log.info("🏁 Fetch process complete for id={}", id))
@@ -490,42 +497,88 @@ public class EpicPractitionerServiceIMPL implements EpicPractitionerService {
     @Override
     public Mono<List<DoctorDTO>> getAllDoctorsFromSandbox() {
         log.info("🔍 Tracking data: Discovering all doctors from sandbox");
-        return sandboxDiscoveryService.discoverIds()
-                .flatMap(sandboxIds -> {
-                    List<String> ids = sandboxIds.getPractitionerIds();
-                    log.info("✅ Tracking data: Discovered {} practitioner IDs, fetching details...", ids.size());
-                    return fetchDoctorsByIds(ids);
+        java.util.concurrent.atomic.AtomicLong start = new java.util.concurrent.atomic.AtomicLong(System.currentTimeMillis());
+        java.util.concurrent.atomic.AtomicLong discoveryMs = new java.util.concurrent.atomic.AtomicLong(0);
+        return authService.getAccessToken("system/Practitioner.read")
+                .flatMap(token -> sandboxDiscoveryService.discoverIds()
+                        .flatMap(dto -> {
+                            discoveryMs.set(System.currentTimeMillis() - start.get());
+                            log.info("⏱️ Epic discovery took {} ms", discoveryMs.get());
+                            List<String> ids = dto.getPractitionerIds();
+                            log.info("✅ Tracking data: Discovered {} practitioner IDs, fetching details...", ids.size());
+                            return fetchDoctorsByIdsWithToken(ids, token);
+                        }))
+                .doOnSuccess(list -> {
+                    long total = System.currentTimeMillis() - start.get();
+                    long fetch = total - discoveryMs.get();
+                    log.info("⏱️ Epic batch fetch took {} ms", fetch);
+                    log.info("⏱️ Epic total (discover + fetch) took {} ms", total);
+                    log.info("🏁 Tracking data: Successfully fetched {} doctor details from sandbox", (list != null ? list.size() : 0));
                 })
-                .doOnSuccess(list -> log.info("🏁 Tracking data: Successfully fetched {} doctor details from sandbox", (list != null ? list.size() : 0)))
                 .onErrorMap(e -> new IntentHandlingException(IntentErrorType.EXECUTION_FAILED, "Error in getAllDoctorsFromSandbox intent", e));
     }
     private Mono<List<DoctorDTO>> fetchDoctorsByIds(List<String> ids) {
+        return authService.getAccessToken("system/Practitioner.read")
+                .flatMap(token -> fetchDoctorsByIdsWithToken(ids, token));
+    }
 
+    private Mono<List<DoctorDTO>> fetchDoctorsByIdsWithToken(List<String> ids, String token) {
         log.info("📥 Batch fetching {} doctors from Epic", ids.size());
-
         return Flux.fromIterable(ids)
-                .flatMap(id -> getDoctorById(id)
+                .distinct()
+                .flatMap(id -> buildDoctorWithRole(token, id)
                                 .onErrorResume(e -> {
                                     log.warn("⚠️ Failed to fetch doctor {}: {}", id, e.getMessage());
                                     return Mono.empty();
                                 }),
-                        3  // concurrency limit
+                        6, 8 // bounded concurrency and prefetch
                 )
                 .collectList()
-                .doOnSuccess(list ->
-                        log.info("✅ Batch fetch complete. Retrieved {}/{} doctors",
-                                list.size(), ids.size()));
+                .doOnSuccess(list -> log.info("✅ Batch fetch complete. Retrieved {}/{} doctors", list.size(), ids.size()));
+    }
+
+    @Override
+    public Flux<DoctorDTO> streamAllDoctorsFromSandbox(int concurrency) {
+        return authService.getAccessToken("system/Practitioner.read")
+                .flatMapMany(token -> sandboxDiscoveryService.discoverIds()
+                        .flatMapMany(dto -> Flux.fromIterable(dto.getPractitionerIds()))
+                        .flatMap(id -> buildDoctorWithRole(token, id)
+                                .onErrorResume(e -> Mono.empty()), concurrency));
+    }
+
+    @Override
+    public Flux<DoctorDTO> streamDoctorsByIds(List<String> ids, int concurrency) {
+        return authService.getAccessToken("system/Practitioner.read")
+                .flatMapMany(token -> Flux.fromIterable(ids)
+                        .flatMap(id -> buildDoctorWithRole(token, id)
+                                .onErrorResume(e -> Mono.empty()), concurrency));
+    }
+
+    @Override
+    public Mono<List<DoctorDTO>> getDoctorsPage(int page, int size) {
+        int p = Math.max(page, 0);
+        int s = size <= 0 ? 20 : size;
+        return authService.getAccessToken("system/Practitioner.read")
+                .flatMap(token -> sandboxDiscoveryService.discoverIds()
+                        .flatMap(dto -> {
+                            List<String> ids = dto.getPractitionerIds();
+                            int from = Math.min(p * s, ids.size());
+                            int to = Math.min(from + s, ids.size());
+                            List<String> sub = ids.subList(from, to);
+                            return Flux.fromIterable(sub)
+                                    .flatMap(id -> buildDoctorWithRole(token, id)
+                                            .onErrorResume(e -> Mono.empty()), 3)
+                                    .collectList();
+                        }));
     }
 
 
     private Mono<JsonNode> fetchPractitionerRole(String token, String practitionerId) {
 
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/PractitionerRole")
-                        .queryParam("practitioner", practitionerId)
-                        .build())
-                .headers(headers -> headers.setBearerAuth(token))
+                .uri(EpicConstants.FHIR_BASE + "/PractitionerRole?practitioner={id}", practitionerId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .accept(MediaType.parseMediaType("application/fhir+json"))
                 .retrieve()
                 .bodyToMono(JsonNode.class);
     }

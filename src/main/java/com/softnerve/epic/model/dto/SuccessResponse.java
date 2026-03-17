@@ -18,15 +18,9 @@ public class SuccessResponse {
     private String path;
     private String timestamp;
     private ResponseData<?> responseData;
+    private String timeTaken;
 
-    // Custom constructor for some fields, with timestamp handled internally
-    public SuccessResponse(int statusCode, String message, String path,ResponseData<?> responseData) {
-        this.statusCode = statusCode;
-        this.message = message;
-        this.path = path;
-        this.timestamp = new Date().toInstant().toString(); // Current timestamp in ISO format
-        this.responseData = responseData;
-    }
+
 
     @Data
     @NoArgsConstructor

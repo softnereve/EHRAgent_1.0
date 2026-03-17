@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import jakarta.validation.ValidationException;
+import javax.validation.ValidationException;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 

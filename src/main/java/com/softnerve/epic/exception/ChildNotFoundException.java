@@ -1,7 +1,0 @@
-package com.softnerve.epic.exception;
-
-public class ChildNotFoundException extends RuntimeException {
-    public ChildNotFoundException(String message) {
-        super(message);
-    }
-}

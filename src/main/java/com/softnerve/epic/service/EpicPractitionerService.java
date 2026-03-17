@@ -5,6 +5,7 @@ import com.softnerve.epic.model.dto.DoctorDTO;
 import com.softnerve.epic.model.dto.PractitionerSummaryDTO;
 import com.softnerve.epic.model.dto.PractitionerRoleDTO;
 import com.softnerve.epic.model.dto.SlotBundleDTO;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
@@ -24,5 +25,9 @@ public interface EpicPractitionerService {
 //    Mono<List<DoctorDTO>> getAllSandboxDoctors();
 
     Mono<List<DoctorDTO>> getAllDoctorsFromSandbox();
+
+    Flux<DoctorDTO> streamAllDoctorsFromSandbox(int concurrency);
+    Flux<DoctorDTO> streamDoctorsByIds(List<String> ids, int concurrency);
+    Mono<List<DoctorDTO>> getDoctorsPage(int page, int size);
 
 }

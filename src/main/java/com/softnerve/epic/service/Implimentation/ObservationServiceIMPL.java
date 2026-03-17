@@ -60,7 +60,8 @@ public class ObservationServiceIMPL implements ObservationService {
                     return new ObservationBundleDTO(
                             "collection",
                             1,
-                            List.of(summary)
+                            List.of(summary),
+                            null
                     );
                 });
     }
@@ -81,7 +82,8 @@ public class ObservationServiceIMPL implements ObservationService {
                     return new ObservationBundleDTO(
                             "collection",
                             summaries.size(),
-                            summaries
+                            summaries,
+                            null
                     );
                 });
     }

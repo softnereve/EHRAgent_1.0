@@ -17,6 +17,8 @@ import com.softnerve.epic.model.EmailEvent;
 import com.softnerve.epic.model.dao.PatientDocument;
 import com.softnerve.epic.model.dto.AddressDTO;
 import com.softnerve.epic.model.dto.ObservationBundleDTO;
+import com.softnerve.epic.model.dto.ClinicalNoteDTO;
+import com.softnerve.epic.model.dto.ClinicalNoteBundleDTO;
 import com.softnerve.epic.model.dto.PatientSummaryDTO;
 import com.softnerve.epic.model.dto.RegistrationDTO;
 import com.softnerve.epic.repo.EpicPatientRepository;
@@ -24,6 +26,7 @@ import com.softnerve.epic.service.CounterService;
 import com.softnerve.epic.service.EpicPatientService;
 import com.softnerve.epic.utils.ObservationMapper;
 import com.softnerve.epic.utils.PatientMapper;
+import com.softnerve.epic.utils.DocumentReferenceMapper;
 import com.softnerve.epic.exception.PatientNotFoundException;
 import com.softnerve.epic.model.dto.ObservationSummaryDTO;
 import com.softnerve.epic.model.dao.ObservationDocument;
@@ -109,7 +112,7 @@ private static final String FRONTEND_BASE_URL =
     private final ObservationRepository observationRepository;
 
 
-    public Mono<ResponseEntity<String>> createPatient(String patientJson, String password,String email, List<AddressDTO> addressList) {
+    public Mono<ResponseEntity<String>> createPatient(String patientJson, String password,String email, List<AddressDTO> addressList, long startTime) {
 
         log.info("➡️ Received request to create Patient");
 
@@ -149,13 +152,16 @@ private static final String FRONTEND_BASE_URL =
                                                                     })
                                                                     .doOnSuccess(this::sendVerificationEmail)
                                                                     .map(saved -> {
+                                                                        String timeTaken = (System.currentTimeMillis() - startTime) + "ms";
                                                                         String responseBody = """
             {
               "message": "Patient created in Epic, saved locally, login using same email",
               "patientId": "%s",
-              "epicPatientId": "%s"
+              "epicPatientId": "%s",
+              "timeTaken": "%s"
             }
-            """.formatted(saved.getId(), saved.getEpicPatientId());
+            """.formatted(saved.getId(), saved.getEpicPatientId(), timeTaken);
+                                                                        log.info("Request createPatient processed in {}", timeTaken);
                                                                         HttpHeaders headers = new HttpHeaders();
                                                                         headers.setContentType(MediaType.APPLICATION_JSON);
                                                                         return new ResponseEntity<>(responseBody, headers, resp.statusCode());
@@ -383,6 +389,7 @@ private static final String FRONTEND_BASE_URL =
     public Mono<ObservationBundleDTO> getObservations(String patientId) {
         return getAccessToken("system/Observation.read")
                 .flatMap(token -> fetchObservations(token, patientId))
+                .publishOn(Schedulers.boundedElastic())
                 .map(this::parseAndMap)
                 .doOnNext(bundle -> persistObservationsAsync(bundle));
     }
@@ -467,7 +474,7 @@ private static final String FRONTEND_BASE_URL =
         return doc;
     }
 
-    public Mono<ResponseEntity<String>> createObservation(String observationJson) {
+    public Mono<ResponseEntity<String>> createObservation(String observationJson, long startTime) {
 
         return authService.getAccessToken("system/Observation.write")
                 .flatMap(token ->
@@ -489,17 +496,78 @@ private static final String FRONTEND_BASE_URL =
                                                     if (location != null) {
                                                         epicObservationId = location.substring(location.lastIndexOf("/") + 1);
                                                     }
+                                                    String timeTaken = (System.currentTimeMillis() - startTime) + "ms";
                                                     String responseBody = """
                 {
                   "message": "Observation create attempted",
-                  "epicObservationId": "%s"
+                  "epicObservationId": "%s",
+                  "timeTaken": "%s"
                 }
-                """.formatted(epicObservationId);
+                """.formatted(epicObservationId, timeTaken);
+                                                    log.info("Request createObservation processed in {}", timeTaken);
                                                     return Mono.just(new ResponseEntity<>(responseBody, resp.headers().asHttpHeaders(), resp.statusCode()));
                                                 })
                                 )
 
                 );
+    }
+
+    public Mono<ClinicalNoteDTO> getClinicalNoteById(String documentId) {
+        long start = System.currentTimeMillis();
+        log.info("Starting Epic DocumentReference fetch. documentId={}", documentId);
+        return getAccessToken("system/DocumentReference.read")
+                .doOnSubscribe(s -> log.info("Requesting access token for scope=system/DocumentReference.read"))
+                .doOnSuccess(t -> log.info("Access token acquired for DocumentReference.read"))
+                .flatMap(token ->
+                        webClient.get()
+                                .uri(fhirBase + "/DocumentReference/{id}", documentId)
+                                .headers(h -> h.setBearerAuth(token))
+                                .accept(MediaType.parseMediaType("application/fhir+json"))
+                                .retrieve()
+                                .onStatus(status -> status.isError(), resp -> resp.bodyToMono(String.class)
+                                        .flatMap(body -> Mono.error(new EpicClientException(resp.statusCode().value(), body))))
+                                .bodyToMono(String.class)
+                                .doOnNext(b -> log.info("Epic DocumentReference response received. documentId={}", documentId))
+                )
+                .publishOn(Schedulers.boundedElastic())
+                .map(json -> {
+                    IParser parser = fhirContext.newJsonParser();
+                    org.hl7.fhir.r4.model.DocumentReference dr =
+                            parser.parseResource(org.hl7.fhir.r4.model.DocumentReference.class, json);
+                    return DocumentReferenceMapper.mapDocRef(dr);
+                })
+                .doOnSuccess(dto -> log.info("Clinical note mapped. documentId={}, time={}ms", documentId, (System.currentTimeMillis() - start)))
+                .doOnError(e -> log.error("Error fetching clinical note. documentId={}, error={}", documentId, e.getMessage()));
+    }
+
+    public Mono<ClinicalNoteBundleDTO> getClinicalNotesByPatient(String patientId) {
+        long start = System.currentTimeMillis();
+        log.info("Starting Epic DocumentReference search. patientId={}", patientId);
+        return getAccessToken("system/DocumentReference.read")
+                .doOnSubscribe(s -> log.info("Requesting access token for scope=system/DocumentReference.read"))
+                .doOnSuccess(t -> log.info("Access token acquired for DocumentReference.read"))
+                .flatMap(token ->
+                        webClient.get()
+                                .uri(fhirBase + "/DocumentReference?patient={id}", patientId)
+                                .headers(h -> h.setBearerAuth(token))
+                                .accept(MediaType.parseMediaType("application/fhir+json"))
+                                .retrieve()
+                                .onStatus(status -> status.isError(), resp -> resp.bodyToMono(String.class)
+                                        .flatMap(body -> Mono.error(new EpicClientException(resp.statusCode().value(), body))))
+                                .bodyToMono(String.class)
+                                .doOnNext(b -> log.info("Epic DocumentReference bundle received. patientId={}", patientId))
+                )
+                .publishOn(Schedulers.boundedElastic())
+                .map(json -> {
+                    IParser parser = fhirContext.newJsonParser();
+                    Bundle bundle = parser.parseResource(Bundle.class, json);
+                    return DocumentReferenceMapper.toDto(bundle);
+                })
+                .doOnSuccess(b -> log.info("Clinical notes mapped. patientId={}, count={}, time={}ms",
+                        patientId,
+                        (b != null && b.getNotes() != null ? b.getNotes().size() : 0),
+                        (System.currentTimeMillis() - start)))
+                .doOnError(e -> log.error("Error fetching clinical notes. patientId={}, error={}", patientId, e.getMessage()));
     }
     private String generateRegistrationToken() {
         return UUID.randomUUID().toString();
@@ -541,4 +609,5 @@ private static final String FRONTEND_BASE_URL =
     }
 
 
+}
 }

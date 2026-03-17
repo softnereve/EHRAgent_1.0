@@ -14,18 +14,22 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
 public class EpicSandboxDiscoveryServiceImpl implements EpicSandboxDiscoveryService {
 
-    private static final List<String> PATIENT_FAMILY_NAMES = List.of("Smith", "Johnson", "Williams", "Argonaut", "Test", "Sandbox", "Jones", "Brown", "Davis", "Wilson", "Moore");
-    private static final List<String> PRACTITIONER_NAMES = List.of("Smith", "Johnson", "Williams", "Doctor", "Test", "Jones", "Brown", "Davis");
-    private static final String COUNT_PARAM = "&_count=50";
+    private static final String COUNT_PARAM = "&_count=20";
+    private static final long CACHE_TTL_MS = 10 * 60 * 1000;
+    private static final int MIN_PRACTITIONERS_TARGET = 13;
+    private static final String CACHE_KEY = "practitioner-discovery";
+    private static final List<String> PRACTITIONER_FALLBACK_NAMES = List.of("Smith", "Johnson", "Williams", "Doctor", "Test", "Jones", "Brown", "Davis");
 
     private final WebClient webClient;
     private final EpicAuthService authService;
     private final ObjectMapper objectMapper;
+    private final ConcurrentHashMap<String, CacheEntry> discoveryCache = new ConcurrentHashMap<>();
 
     public EpicSandboxDiscoveryServiceImpl(WebClient webClient, EpicAuthService authService, ObjectMapper objectMapper) {
         this.webClient = webClient;
@@ -35,30 +39,34 @@ public class EpicSandboxDiscoveryServiceImpl implements EpicSandboxDiscoveryServ
 
     @Override
     public Mono<EpicSandboxIdsDTO> discoverIds() {
+        long now = System.currentTimeMillis();
+        CacheEntry cached = discoveryCache.get(CACHE_KEY);
+        if (cached != null && now < cached.expiresAtMs() && cached.dto() != null && cached.dto().getPractitionerIds() != null
+                && cached.dto().getPractitionerIds().size() >= MIN_PRACTITIONERS_TARGET) {
+            return Mono.just(cached.dto());
+        }
         Set<String> patientIds = new LinkedHashSet<>();
         Set<String> practitionerIds = new LinkedHashSet<>();
         Map<String, EpicPractitionerSummaryItem> practitionerSummariesById = new LinkedHashMap<>();
         Set<String> slotIds = new LinkedHashSet<>();
         List<String> messages = new ArrayList<>();
 
-        return authService.getAccessToken("system/Patient.read")
-                .flatMap(patientToken ->
-                        authService.getAccessToken("system/Practitioner.read")
-                                .flatMap(practitionerToken -> {
-                                    Mono<Void> patientMono = tryPatientSearches(patientToken, patientIds, messages);
-                                    Mono<Void> practMono = tryPractitionerSearches(practitionerToken, practitionerIds, practitionerSummariesById, messages);
-                                    return Mono.when(patientMono, practMono)
-                                            .then(Mono.defer(() -> practitionerIds.isEmpty()
-                                                    ? tryKnownPractitionerIds(practitionerToken, practitionerIds, messages).thenReturn(1)
-                                                    : Mono.just(1)))
-                                            .map(ignored -> EpicSandboxIdsDTO.builder()
-                                                    .patientIds(new ArrayList<>(patientIds))
-                                                    .practitionerIds(new ArrayList<>(practitionerIds))
-                                                    .practitionerSummaries(new ArrayList<>(practitionerSummariesById.values()))
-                                                    .slotIds(new ArrayList<>(slotIds))
-                                                    .messages(new ArrayList<>(messages))
-                                                    .build());
-                                })
+        return authService.getAccessToken("system/Practitioner.read")
+                .flatMap(practitionerToken ->
+                        tryPractitionerSearches(practitionerToken, practitionerIds, practitionerSummariesById, messages)
+                                .then(Mono.defer(() -> practitionerIds.size() < MIN_PRACTITIONERS_TARGET
+                                        ? tryPractitionerFallbackSearches(practitionerToken, practitionerIds, practitionerSummariesById, messages)
+                                        : Mono.empty()))
+                                .then(Mono.defer(() -> practitionerIds.isEmpty()
+                                        ? tryKnownPractitionerIds(practitionerToken, practitionerIds, messages).thenReturn(1)
+                                        : Mono.just(1)))
+                                .map(ignored -> EpicSandboxIdsDTO.builder()
+                                        .patientIds(new ArrayList<>(patientIds))
+                                        .practitionerIds(new ArrayList<>(practitionerIds))
+                                        .practitionerSummaries(new ArrayList<>(practitionerSummariesById.values()))
+                                        .slotIds(new ArrayList<>(slotIds))
+                                        .messages(new ArrayList<>(messages))
+                                        .build())
                                 .onErrorResume(e -> {
                                     messages.add("Auth or search error: " + e.getMessage());
                                     return Mono.just(EpicSandboxIdsDTO.builder()
@@ -70,46 +78,32 @@ public class EpicSandboxDiscoveryServiceImpl implements EpicSandboxDiscoveryServ
                                             .build());
                                 })
                 )
-                .flatMap(dto -> {
-                    if (dto.getPractitionerIds().isEmpty()) {
-                        return Mono.just(dto);
-                    }
-                    String firstPract = dto.getPractitionerIds().get(0);
-                    return authService.getAccessToken("system/Slot.read")
-                            .flatMap(slotToken -> fetchSlotIds(slotToken, firstPract, dto))
-                            .onErrorResume(e -> {
-                                dto.getMessages().add("Slot search: " + e.getMessage());
-                                return Mono.just(dto);
-                            })
-                            .defaultIfEmpty(dto);
-                })
                 .doOnSuccess(dto -> {
                     log.info("Discovered from Epic: {} patients, {} practitioners, {} slots",
                             dto.getPatientIds().size(), dto.getPractitionerIds().size(), dto.getSlotIds().size());
+                    long ttl = dto.getPractitionerIds().size() >= MIN_PRACTITIONERS_TARGET ? CACHE_TTL_MS : 30_000;
+                    discoveryCache.put(CACHE_KEY, new CacheEntry(dto, System.currentTimeMillis() + ttl));
                 });
     }
 
-    private Mono<Void> tryPatientSearches(String token, Set<String> patientIds, List<String> messages) {
-        List<Mono<Void>> monos = new ArrayList<>();
-        for (String family : PATIENT_FAMILY_NAMES) {
-            String uri = EpicConstants.FHIR_BASE + "/Patient?family=" + family + COUNT_PARAM;
-            monos.add(callEpicAndCollectIds(token, uri, "Patient", patientIds, messages));
-        }
-        monos.add(callEpicAndCollectIds(token, EpicConstants.FHIR_BASE + "/Patient?given=John" + COUNT_PARAM, "Patient", patientIds, messages));
-        monos.add(callEpicAndCollectIds(token, EpicConstants.FHIR_BASE + "/Patient?given=Jane" + COUNT_PARAM, "Patient", patientIds, messages));
-        return Mono.when(monos).then();
-    }
+    private record CacheEntry(EpicSandboxIdsDTO dto, long expiresAtMs) {}
 
     private Mono<Void> tryPractitionerSearches(String token, Set<String> practitionerIds,
                                                 Map<String, EpicPractitionerSummaryItem> practitionerSummariesById, List<String> messages) {
+        String uri = EpicConstants.FHIR_BASE + "/Practitioner?active=true" + COUNT_PARAM + "&_elements=id,name";
+        return callEpicAndCollectPractitioners(token, uri, practitionerIds, practitionerSummariesById, messages);
+    }
+
+    private Mono<Void> tryPractitionerFallbackSearches(String token, Set<String> practitionerIds,
+                                                       Map<String, EpicPractitionerSummaryItem> practitionerSummariesById, List<String> messages) {
+        log.info("Practitioner discovery below target ({}). Running fallback searches...", practitionerIds.size());
         List<Mono<Void>> monos = new ArrayList<>();
-        for (String name : PRACTITIONER_NAMES) {
-            String uri = EpicConstants.FHIR_BASE + "/Practitioner?name=" + name + COUNT_PARAM;
+        for (String name : PRACTITIONER_FALLBACK_NAMES) {
+            String uri = EpicConstants.FHIR_BASE + "/Practitioner?name=" + name + "&_count=50&_elements=id,name";
             monos.add(callEpicAndCollectPractitioners(token, uri, practitionerIds, practitionerSummariesById, messages));
         }
-        monos.add(callEpicAndCollectPractitioners(token, EpicConstants.FHIR_BASE + "/Practitioner?family=Smith" + COUNT_PARAM, practitionerIds, practitionerSummariesById, messages));
-        monos.add(callEpicAndCollectPractitioners(token, EpicConstants.FHIR_BASE + "/Practitioner?given=John" + COUNT_PARAM, practitionerIds, practitionerSummariesById, messages));
-        monos.add(callEpicAndCollectPractitioners(token, EpicConstants.FHIR_BASE + "/Practitioner?active=true" + COUNT_PARAM, practitionerIds, practitionerSummariesById, messages));
+        monos.add(callEpicAndCollectPractitioners(token, EpicConstants.FHIR_BASE + "/Practitioner?family=Smith&_count=50&_elements=id,name", practitionerIds, practitionerSummariesById, messages));
+        monos.add(callEpicAndCollectPractitioners(token, EpicConstants.FHIR_BASE + "/Practitioner?given=John&_count=50&_elements=id,name", practitionerIds, practitionerSummariesById, messages));
         return Mono.when(monos).then();
     }
 

@@ -2,7 +2,6 @@ package com.softnerve.epic.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.softnerve.epic.model.dao.AppointmentEvent;
 import com.softnerve.epic.model.enums.AppointmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +26,7 @@ public class PatientAppointmentDTO {
     private String venueId;
     private String venueDetails;
     private AppointmentStatus appointmentStatus;
-    private AppointmentEvent.AppointmentSlot appointmentSlot;
+    private AppointmentSlot appointmentSlot;
     private String appointmentBookingDate; // [format --> DD/MM/YYYY]
     private long appointmentUpdatedAt;
     private ImmunizationData immunizationData;
@@ -42,5 +41,15 @@ public class PatientAppointmentDTO {
         private String childName;
         private String immunizationId;
         private String immunizationName;
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class AppointmentSlot {
+        private String startTime;
+        private String endTime;
     }
 }

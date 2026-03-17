@@ -19,6 +19,16 @@ public class PractitionerRoleDTO {
     private List<CodeableConceptDTO> specialty;
     private List<TelecomDTO> telecom;
 
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
+
     @Data
     @Builder
     @NoArgsConstructor

@@ -21,14 +21,9 @@ public class SecurityConfig {
      * @throws Exception if an error occurs while configuring the HttpSecurity object
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").authenticated()
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form.permitAll())
-            .httpBasic(basic -> {});
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+        http.csrf().disable().authorizeHttpRequests().requestMatchers("/swagger-ui/**").authenticated()
+                .and().formLogin().and().authorizeHttpRequests().anyRequest().permitAll();
         return http.build();
     }
 

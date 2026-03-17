@@ -11,4 +11,13 @@ public class SlotDTO {
     private String end;
     private String status;
     private String scheduleId;
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }

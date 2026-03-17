@@ -35,6 +35,8 @@ build/
 # ==== Logs ====
 *.log
 logs/
+build_output.txt
+deployment/pod_logs.txt
 
 # ==== Local env / secrets ====
 .env

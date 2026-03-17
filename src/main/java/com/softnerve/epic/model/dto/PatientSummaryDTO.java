@@ -64,5 +64,14 @@ public class PatientSummaryDTO {
     @Schema(description = "Organization managing the record", example = "Epic Health Services")
     private String managingOrganization;
 
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }
 

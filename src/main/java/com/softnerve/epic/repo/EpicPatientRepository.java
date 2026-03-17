@@ -1,6 +1,5 @@
 package com.softnerve.epic.repo;
 
-import com.softnerve.epic.model.dao.Patient;
 import com.softnerve.epic.model.dao.PatientDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

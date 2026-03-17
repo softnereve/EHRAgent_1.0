@@ -35,4 +35,14 @@ public class PractitionerSummaryDTO {
     @Builder.Default
     @Schema(description = "Flag indicating if the record is from Epic", example = "true")
     private boolean isFromEpic = true;
+
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }

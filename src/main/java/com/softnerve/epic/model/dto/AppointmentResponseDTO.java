@@ -19,4 +19,13 @@ public class AppointmentResponseDTO {
     private String status;
     private String start;
     private String end;
+    private String timeTaken;
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
 }
