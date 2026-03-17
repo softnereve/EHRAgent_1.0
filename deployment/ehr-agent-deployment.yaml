@@ -1,0 +1,40 @@
+# @author - Ankit Khatri
+# EHRAgent Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ehr-agent-service
+  namespace: backend
+spec:
+  selector:
+    app: ehr-agent
+  ports:
+  - protocol: TCP
+    port: 8282
+    targetPort: 8282
+  type: LoadBalancer
+
+# EHRAgent Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ehr-agent-deployment
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ehr-agent
+  template:
+    metadata:
+      labels:
+        app: ehr-agent
+    spec:
+      containers:
+      - name: ehr-agent-container
+        # EHRAgent docker image
+        image: ehr-agent:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8282
