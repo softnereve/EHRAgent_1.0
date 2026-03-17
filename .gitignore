@@ -1,0 +1,60 @@
+# ==== OS ====
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==== IDEs ====
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+.vscode/
+
+.classpath
+.project
+.settings/
+
+# ==== Java / build output ====
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+
+target/
+build/
+.gradle/
+
+# Keep local/system-scope jars that are intentionally checked in
+!libs/*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# ==== Logs ====
+*.log
+logs/
+
+# ==== Local env / secrets ====
+.env
+.env.*
+*.local
+
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+**/*service-account*.json
+**/*credentials*.json
+
+# ==== Misc ====
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+

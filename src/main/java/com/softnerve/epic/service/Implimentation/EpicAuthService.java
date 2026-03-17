@@ -8,13 +8,13 @@ import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.softnerve.epic.constant.EpicConstants;
 import dev.softnerve.annotation.IntentService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -28,6 +28,22 @@ import reactor.core.publisher.Mono;
 public class EpicAuthService {
 
     private final WebClient webClient = WebClient.create();
+    private final String clientId;
+    private final String tokenUrl;
+    private final String kid;
+    private final String privateJwkJson;
+
+    public EpicAuthService(
+            @Value("${epic.client-id}") String clientId,
+            @Value("${epic.token-url}") String tokenUrl,
+            @Value("${epic.kid}") String kid,
+            @Value("${epic.private-jwk}") String privateJwkJson
+    ) {
+        this.clientId = clientId;
+        this.tokenUrl = tokenUrl;
+        this.kid = kid;
+        this.privateJwkJson = privateJwkJson;
+    }
 
 //    public Mono<String> getAccessToken() {
 //        try {
@@ -69,12 +85,12 @@ public class EpicAuthService {
 //    }
 public Mono<String> getAccessToken(String scope) {
     try {
-        RSAKey rsaKey = RSAKey.parse(EpicConstants.PRIVATE_JWK_JSON);
+        RSAKey rsaKey = RSAKey.parse(privateJwkJson);
 
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
-                .issuer(EpicConstants.CLIENT_ID)
-                .subject(EpicConstants.CLIENT_ID)
-                .audience(EpicConstants.TOKEN_URL)
+                .issuer(clientId)
+                .subject(clientId)
+                .audience(tokenUrl)
                 .jwtID(UUID.randomUUID().toString())
                 .issueTime(new Date())
                 .expirationTime(new Date(System.currentTimeMillis() + 300_000))
@@ -82,7 +98,7 @@ public Mono<String> getAccessToken(String scope) {
 
         SignedJWT signedJWT = new SignedJWT(
                 new JWSHeader.Builder(JWSAlgorithm.RS384)
-                        .keyID(EpicConstants.KID)
+                        .keyID(kid)
                         .type(JOSEObjectType.JWT)
                         .build(),
                 claims
@@ -91,7 +107,7 @@ public Mono<String> getAccessToken(String scope) {
         signedJWT.sign(new RSASSASigner(rsaKey));
 
         return webClient.post()
-                .uri(EpicConstants.TOKEN_URL)
+                .uri(tokenUrl)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData("grant_type", "client_credentials")
                         .with("scope", scope) // 🔥 THIS IS THE FIX
