@@ -58,21 +58,34 @@ Look for `@IntentDefinition` in the service files to see how these are mapped!
 ### Prerequisite
 - **Java 17** installed.
 - **Maven** installed.
+- **Docker** installed.
 - **MongoDB** running (Connection details are in `application.properties`).
 
 ### Running the App
+
+#### With Maven
 1.  Open your terminal in the `EHRAgent` directory.
 2.  Run the command:
     ```bash
     mvn clean spring-boot:run
     ```
 
+#### With Docker
+1.  Build the Docker image:
+    ```bash
+    docker build -t ehr-agent:latest .
+    ```
+2.  Run the Docker container:
+    ```bash
+    docker run -p 7979:7979 ehr-agent:latest
+    ```
+
 ### 📖 Swagger Documentation (Testing via Browser)
 We provide a visual interface to test all APIs.
-- **Link**: [http://localhost:8282/v1.0.0/apis/epic/swagger-ui.html](http://localhost:8282/v1.0.0/apis/epic/swagger-ui.html)
+- **Link**: [http://localhost:7979/v1.0.0/apis/fhir/swagger-ui/index.html](http://localhost:7979/v1.0.0/apis/fhir/swagger-ui/index.html)
 - **Login Credentials**:
-  - **Username**: `admin`
-  - **Password**: `admin123`
+  - **Username**: `patient-service`
+  - **Password**: `$$P@t!ent$$`
 
 ---
 
