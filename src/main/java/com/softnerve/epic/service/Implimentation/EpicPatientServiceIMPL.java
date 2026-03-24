@@ -244,15 +244,6 @@ private static final String FRONTEND_BASE_URL =
         return Mono.fromCallable(() -> patientRepository.save(doc));
     }
 
-//    public Mono<ResponseEntity<String>> createPatientFromDto(RegistrationDTO dto) {
-//
-//        String patientJson = buildPatientJson(dto);
-//
-//        log.info("🧾 Generated Epic Patient JSON from DTO");
-//        log.debug("FHIR Patient JSON: {}", patientJson);
-//
-//        return createPatient(patientJson);
-//    }
     private String buildPatientJson(RegistrationDTO dto) {
 
         return """
@@ -289,6 +280,7 @@ private static final String FRONTEND_BASE_URL =
                 dto.getDob()
         );
     }
+
     private Mono<String> fetchPatient(String token, String patientId) {
 
         log.debug("➡️ Fetching patient from Epic. patientId={}", patientId);
@@ -609,5 +601,4 @@ private static final String FRONTEND_BASE_URL =
     }
 
 
-}
 }
