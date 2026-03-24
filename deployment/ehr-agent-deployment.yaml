@@ -10,8 +10,8 @@ spec:
     app: ehr-agent
   ports:
   - protocol: TCP
-    port: 8282
-    targetPort: 8282
+    port: 7979
+    targetPort: 7979
   type: LoadBalancer
 
 # EHRAgent Deployment
