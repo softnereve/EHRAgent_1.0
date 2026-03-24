@@ -1,10 +1,7 @@
 package com.softnerve.epic.exception;
 
-import com.softnerve.epic.exception.document.DocumentNotFoundException;
-import com.softnerve.epic.exception.document.FileAlreadyExistsException;
-import com.softnerve.epic.exception.document.FileUploadException;
-import com.softnerve.epic.exception.document.FolderNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import javax.validation.ValidationException;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
@@ -46,31 +42,6 @@ public class GlobalExceptionHandler {
                 new Date().toInstant().toString()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
-
-    @ExceptionHandler(ImmunizationNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleImmunizationNotFoundException(ImmunizationNotFoundException e, HttpServletRequest request) {
-        log.error("Immunization not found: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                "Immunization not found: " + e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
-    @ExceptionHandler(PatientAlreadyPresentException.class)
-    public ResponseEntity<ErrorResponse> handlePatientAlreadyPresent(
-            PatientAlreadyPresentException ex,
-            HttpServletRequest request
-    ) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                "Patient Already Exists: " + ex.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-
     }
 
 
@@ -110,94 +81,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(ChildNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleChildNotFoundException(ChildNotFoundException e, HttpServletRequest request) {
-        log.error("Child not found: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Child not found: " + e.getMessage(),
-                request.getRequestURI() // Assuming you have this constant for the path
-        );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-
-    @ExceptionHandler(DocumentNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleDocumentNotFoundException(DocumentNotFoundException e, HttpServletRequest request) {
-        log.error("Document not found: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                "Document not found: " + e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
-
-    @ExceptionHandler(FileAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorResponse> handleFileAlreadyExistsException(FileAlreadyExistsException e, HttpServletRequest request) {
-        log.error("File already exists: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                "File already exists: " + e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-    }
-
-    @ExceptionHandler(FileUploadException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleFileUploadException(FileUploadException e, HttpServletRequest request) {
-        log.error("File upload failed: {}", e.getMessage());
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "File upload failed: " + e.getMessage(),
-                request.getRequestURI()
-        );
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-
-    @ExceptionHandler(FolderNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleFolderNotFoundException(FolderNotFoundException e, HttpServletRequest request) {
-        log.error("Folder not found: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                "Folder not found: " + e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
-
-    @ExceptionHandler(PhoneNumberAlreadyExists.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorResponse> handlePhoneNumberAlreadyExists(PhoneNumberAlreadyExists e, HttpServletRequest request) {
-        log.error("Phone number already exists: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-    }
-
-    @ExceptionHandler(EmailAlreadyExists.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(EmailAlreadyExists e, HttpServletRequest request) {
-        log.error("Email already exists: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-    }
-
     @ExceptionHandler(DateTimeParseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleDateTimeParseException(DateTimeParseException e, HttpServletRequest request) {
@@ -208,44 +91,6 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-    @ExceptionHandler(IncorrectPasswordException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleIncorrectPassword(IncorrectPasswordException e, HttpServletRequest request) {
-        log.error("Incorrect password: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-    // Handle PasswordsNotMatchingException
-    @ExceptionHandler(PasswordsNotMatchingException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorResponse> handlePasswordsNotMatching(PasswordsNotMatchingException e, HttpServletRequest request) {
-        log.error("Passwords do not match: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-    }
-
-    @ExceptionHandler(PatientNotVerifiedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<ErrorResponse> handlePatientNotVerifiedException(PatientNotVerifiedException e, HttpServletRequest request) {
-        log.warn("Patient not verified: {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                "Patient not verified: " + e.getMessage(),
-                request.getRequestURI(),
-                new Date().toInstant().toString()
-        );
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
     @ExceptionHandler(EpicAuthException.class)
     public ResponseEntity<ErrorResponse> handleEpicAuthException(EpicAuthException e, HttpServletRequest request) {
